@@ -1,0 +1,22 @@
+# Node.jsの公式イメージをベースにする
+FROM node:14
+
+# アプリケーションディレクトリを作成
+WORKDIR /usr/src/app
+
+# package.jsonとpackage-lock.jsonをコピー
+COPY package*.json ./
+
+# 依存関係をインストール
+RUN npm install
+
+# ビルド用のファイルをコピー
+COPY tsconfig.json ./
+COPY public ./public
+COPY src ./src
+
+# TypeScriptをコンパイルし、アプリケーションをビルド
+RUN npm run build
+
+# 開発モードでアプリケーションを起動
+CMD ["npm", "run", "start"]
