@@ -1,22 +1,17 @@
-# Node.jsの公式イメージをベースにする
-FROM node:14
+# ベースイメージ
+FROM node:18-alpine
 
-# アプリケーションディレクトリを作成
-WORKDIR /usr/src/app
+# 作業ディレクトリを設定
+WORKDIR /app
 
-# package.jsonとpackage-lock.jsonをコピー
+# package.json と package-lock.json をコピー
 COPY package*.json ./
 
-# 依存関係をインストール
+# 依存パッケージのインストール
 RUN npm install
 
-# ビルド用のファイルをコピー
-COPY tsconfig.json ./
-COPY public ./public
-COPY src ./src
+# アプリのソースコードをコピー
+COPY . .
 
-# TypeScriptをコンパイルし、アプリケーションをビルド
-RUN npm run build
-
-# 開発モードでアプリケーションを起動
-CMD ["npm", "run", "start"]
+# Reactアプリを起動
+CMD ["npm", "start"]
